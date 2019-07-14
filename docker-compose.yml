@@ -1,0 +1,31 @@
+version: "3.6"
+services:
+  electionmanager:
+    image: ardalanfp/fum_election_electionmanager
+    container_name: electionmanager
+    depends_on: 
+      - electionManagerDb
+  electionportal:
+    image: ardalanfp/fum_election_electionportal
+    container_name: electionportal
+    depends_on:
+      - electionPortalDb
+  electionManagerDb:
+    image: ardalanfp/election_manager_db
+    container_name: electionManagerDb
+  electionPortalDb:
+    image: ardalanfp/election_portal_db
+    container_name: electionPortalDb
+  auth:
+    image: sayid/auth
+    container_name: auth
+    depends_on: 
+      - mongo
+  election_ui:
+    image: sayid/election_ui
+    ports:
+      - "80:9090"
+    container_name: electionui
+  mongo:
+    image: mongo
+    container_name: mongo

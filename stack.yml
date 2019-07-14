@@ -1,0 +1,43 @@
+version: "3.6"
+services:
+  visualizer:
+    image: dockersamples/visualizer
+    ports:
+      - "9036:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+  electionmanager:
+    image: ardalanfp/fum_election_electionmanager
+    deploy:
+      replicas: 2    
+  electionportal:
+    image: ardalanfp/fum_election_electionportal
+    deploy:
+      replicas: 2
+  electionManagerDb:
+    image: ardalanfp/election_manager_db
+    deploy:
+      replicas: 1
+  electionPortalDb:
+    image: ardalanfp/election_portal_db
+    deploy:
+      replicas: 1
+  auth:
+    image: sayid/auth
+    deploy:
+      replicas: 2
+  election_ui:
+    image: sayid/election_ui
+    deploy:
+      replicas: 2
+    ports:
+      - "80:9090"
+  mongo:
+    image: mongo
+    deploy:
+      replicas: 1
+
